@@ -66,7 +66,7 @@ addEventListener("fetch", (event) => {
     status: 200,
     headers: { "content-type": "text/plain" }
   };
-  const response = new Response("Hello World!", options);
+  const response = new Response("Hello, Dr. Deno!", options);
   event.respondWith(response);
 });
 
