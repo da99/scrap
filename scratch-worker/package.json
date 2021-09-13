@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "scratch-worker",
+  "version": "0.0.0",
+  "description": "A scratchpad to learn Cloudflare Workers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "da99 <sp.0x+ihate.span@mailinator.com>",
+  "license": "MIT",
+  "devDependencies": {
+  }
+}

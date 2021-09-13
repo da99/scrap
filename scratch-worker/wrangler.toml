@@ -1,0 +1,15 @@
+name = "scratch-worker"
+type = "javascript"
+
+account_id = "9c4dc75e07b3fd04442ceac71a2532be"
+workers_dev = true
+route = ""
+zone_id = ""
+kv_namespaces = [
+  { binding = "KV", preview_id = "0dcc046b0cb04600aa509f595ed45016", id = "fd170c8b270f41cda1b262a3b4b16027" }
+]
+
+[env.production]
+kv_namespaces = [
+  { binding = "KV", id = "fd170c8b270f41cda1b262a3b4b16027" }
+]
