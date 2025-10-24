@@ -9,7 +9,40 @@ import (
 	"html/template"
 	"github.com/spf13/cobra"
 	"os"
+	"errors"
+	"encoding/json"
 )
+
+func GetConfigFile() (string, error) {
+	if _, err := os.Stat("config.json"); !os.IsNotExist(err) {
+		return "config.json", nil
+	}
+	if _, err := os.Stat("config/main.json"); !os.IsNotExist(err) {
+		return "config/main.json", nil
+	}
+	return "", errors.New("Config file not found.")
+}
+
+func GetConfig() (map[string]interface{}, error) {
+	fin := make(map[string]interface{})
+
+	config_file, config_err := GetConfigFile()
+	if config_err != nil {
+		return fin, nil
+	}
+	contents, read_err := os.ReadFile(config_file)
+
+	if read_err != nil {
+		return fin, read_err;
+	}
+
+	j_err := json.Unmarshal([]byte(contents), &fin)
+	if j_err != nil {
+		return fin, nil
+	}
+
+	return fin, nil
+}
 
 func CompileFile(fp string) error {
 	fmt.Println("Compiling: " + fp)
