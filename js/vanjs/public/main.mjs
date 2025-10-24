@@ -9,6 +9,7 @@ const Hello = () => div(
   p("👋Hello"),
   ul(
     li("🗺️World"),
+    li("🗺️  ...again"),
   ),
   span(strong("This is a span."), "and this is normal.")
 )
