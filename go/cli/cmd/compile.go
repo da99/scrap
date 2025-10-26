@@ -6,11 +6,15 @@ package cmd
 
 import (
 	"fmt"
+	"path"
 	"html/template"
 	"github.com/spf13/cobra"
 	"os"
+	"strings"
 	"errors"
 	"encoding/json"
+	"sync"
+	"da99/cli/files"
 )
 
 func GetConfigFile() (string, error) {
@@ -54,13 +58,48 @@ func CompileFile(fp string) error {
 	return tmpl.Execute(os.Stdout, "http://www.lewrockwell.com/>a?")
 }
 
+
 // compileCmd represents the compile command
 var compileCmd = &cobra.Command{
 	Use:   "compile [dir]",
 	Short: "Compile files from `ls [dir]`",
 	Args : cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return LsFiles(args[0], CompileFile)
+		var wg sync.WaitGroup
+		defer wg.Wait()
+
+		config, c_err := GetConfig()
+		if c_err != nil { return c_err }
+
+		dirs, d_err := files.List_Shallow_Dirs(args[0])
+		if d_err != nil { return d_err }
+
+		for _, d := range dirs {
+			files, err := files.List_Shallow_Files_Ext(d, "*.go.html")
+			if err != nil { return err }
+
+			tmpl, t_err := template.ParseFiles(files...)
+			if t_err != nil { return err }
+
+			for _, f := range files {
+				if strings.Contains(f, PARTIAL_PATTERN) { continue; }
+
+				fmt.Printf("-- Compiling template: %v\n", f)
+				err := tmpl.ExecuteTemplate(os.Stdout, path.Base(f), config)
+				if err != nil {
+					fmt.Printf("%v\n", err)
+					os.Exit(1)
+				}
+				fmt.Println("\n")
+
+			}
+		}
+
+		//
+		//
+		// for _, v := range files {
+		// }
+		return nil
 	},
 }
 
