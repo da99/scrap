@@ -1,5 +1,12 @@
-<html>
-  <body>
-    ABOUT THIS SITE
-  </body>
-</html>
+{{define "content"}}
+  THIS IS content
+  hello, {{.}}. this is about/index.go.html
+  {{template "content2" .}}
+{{end}}
+
+
+{{define "content2"}}<!-- THIS IS content2 --> this is 2nd: Hello, {{.}}.{{end}}
+
+{{define "about/index"}}
+  {{template "main/layout" .}}
+{{end}}
