@@ -4,8 +4,9 @@ package main
 import (
 	"embed"
 	"fmt"
-	"html/template"
-	"os"
+	"path/filepath"
+	// "html/template"
+	// "os"
 )
 
 //go:embed files/*
@@ -17,9 +18,11 @@ func main() {
 	// 	fmt.Printf("%v\n", string(x))
 	// }
 	fmt.Println("========================")
-	// tmpl, _ := template.ParseFS(files, "files/about/index.go.html", "files/layout.go.html")
-	tmpl, _ := template.ParseFS(files, "files/*.go.html")
-	tmpl.ParseGlob("files/about/*.go.html")
-	tmpl.ExecuteTemplate(os.Stdout, "about/index", "World")
-	// tmpl.Execute(os.Stdout, "World")
+
+	// tmpl, _ := template.ParseFS(files, "files/*.go.html")
+	// tmpl.ParseGlob("files/about/*.go.html")
+	// tmpl.ExecuteTemplate(os.Stdout, "about/index", "World")
+	m, _ := filepath.Glob("files/**/*.go.html")
+
+	fmt.Println(m)
 }
