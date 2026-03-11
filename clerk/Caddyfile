@@ -1,0 +1,4 @@
+http://localhost:3000 {
+	root * /progs/scraps/clerk/
+	file_server
+}
